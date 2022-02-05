@@ -129,6 +129,14 @@ def calculate_stock_data(data):
     
     return new_stock_data
 
+def get_stock_data():
+    stock_sheet = SHEET.worksheet("stock")
+    stock = {}
+    for ind in range(1, 7):
+        column = stock_sheet.col_values(ind)
+        stock[column[0]] = column[-1]
+    print(stock)
+
 def main():
     """[Run all program functions]
     """
@@ -140,6 +148,8 @@ def main():
     sales_columns = get_last_5_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, "stock")
+    print("Make the follwing numbers of sandwiches for next market:\n")
+    get_stock_data()
 
 print("Welcome to Love Sandwiches")
 main()
