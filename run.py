@@ -32,7 +32,7 @@ def get_sales_data():
         if validate_data(sales_data):
             print("Data is valid")
             break
-        
+
     return sales_data
 
 
@@ -43,7 +43,7 @@ def validate_data(values):
         values ([string]): [array of values]
 
     Raises:
-        ValueError: [Errors]
+        ValueError: [if values length != 6]
 
     Returns:
         [bool]: [return True if data is valid]
@@ -74,6 +74,17 @@ def update_sales_worksheet(data):
     
 
 def calculate_surplus_data(sales_row):
+    """[Compare sales with stock and calculate the surplus for each item ttype. The surplus value is defined a the sales figures substracted from the stock:
+        -Positive surplus indicates waste
+        -Negative surplus indactes extra made when stock was sold out.
+    ]
+
+    Args:
+        sales_row ([list]): [sales provided by user]
+
+    Returns:
+        [list]: [surplus data]
+    """
     
     print("Calculating surplus data... \n")
     stock = SHEET.worksheet("stock").get_all_values()
@@ -83,8 +94,9 @@ def calculate_surplus_data(sales_row):
     for stock, sales in zip(stock_row, sales_row):
         surplus = int(stock) - sales
         surplus_data.append(surplus)
-        
+    
     print(surplus_data)
+    return surplus_data
 
 def main():
     """[Run all program functions]
@@ -92,7 +104,7 @@ def main():
     data = get_sales_data()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
-    calculate_surplus_data(sales_data)
+    new_surplus_data = calculate_surplus_data(sales_data)
 
 print("Welcome to Love Sandwiches")
 main()
